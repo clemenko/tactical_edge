@@ -57,8 +57,6 @@ One last piece to this architecture is a [Netgear GS105](https://www.netgear.com
 
 ![lunchbox](img/lunchbox.jpg)
 
----
-
 ## Operating System
 
 Similar to how much choice there is in the hardware realm, we have similar choice when it comes to operating systems. Being honest, there are two front runners. Both will work with 99.99% of the hardware that will be through at it. [Ubuntu](https://ubuntu.com/) is a great choice for many. It is built on Debian which has been around for decades. [Rocky Linux](https://rockylinux.org/) is the second choice. Rocky is the new Centos. Rocky is built from RHEL with all the enterprise security and stability built in. We have a few guides that talk about using Rocky as a secure foundation for RKE2. For this guide, Rocky for the win! And yes, please leave SElinux enforcing.
@@ -77,9 +75,15 @@ Since we are leveraging Kubernetes we are going to use some of the tools in the 
 
 ## Next Level
 
+At this point I bet you are asking yourself "How can I make this better?". Well here are some ideas on how to extend this design to fit more needs.
+
 ### Harvester
 
+What about having a Hyperconverged solution? [Harvester](https://www.rancher.com/products/harvester) can serve Virtual Machines (VMs) out from one of the nodes. In fact the cluster in the pictures is running Harvester on the third node. Harvester gives the add ability to serve Windows VMs to the case. Another great use of Harvester is to serve our more infrastructure related applications to the case, like DNS or version control.
+
 ### Gitea
+
+[Gitea](https://gitea.io/en-us/) is a fantastic solution for in case version control. Not to mention how light weight it is. One of the protips is to use a Longhorn volume for Gitea for highly available, stateful, storage.
 
 ### Registry
 
