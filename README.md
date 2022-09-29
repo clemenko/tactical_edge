@@ -50,7 +50,7 @@ For this reference architecture we have chosen three [ASROCK 4X4 BOX-5800U](http
 
 To maximize the portability we added a [Gl.inet Beryl Travel Route](https://www.gl-inet.com/products/gl-mt1300/). The router is great for extending the connectivity to additional devices like a laptop. The router also has a "repeater" function for Wifi. Meaning all the nodes and reach the internet for updating and initial loading of software. And of course an internal DHCP server. As a side note, some of the Gl.iNet routes also have WireGuard (VPN) capabilities.
 
-One last piece to this architecture is a simple five port ethernet switch. If we were to only use two nodes the GL.iNet router would be able to handle all the internal traffic.
+One last piece to this architecture is a [Netgear GS105](https://www.netgear.com/business/wired/switches/unmanaged/gs105/) five port 1 Gigabit ethernet switch. The switch provides communication between the nodes. The switch could easily be upgrade to 2.5 Gigabit if needed. Also, if was only two nodes the GL.iNet router would be able to handle all the internal traffic.
 
 ![lunchbox](img/lunchbox.jpg)
 
