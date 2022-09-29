@@ -14,10 +14,13 @@ Rancher Federal field engineers get asked all the time about how to deploy at th
 > * [Hardware](#Hardware)
 > * [OS](#OS)
 > * [Software](#Software)
->   * [Registry](#Registry)
 >   * [RKE2](#RKE2)
 >   * [Longhorn](#Longhorn)
 >   * [Rancher](#Rancher)
+> * [Next Level](#Next_Level)
+>   * [Harvester](#Harvester)
+>   * [Gitea](#Gitea)
+>   * [Registry](#Registry)
 > * [Conclusion](#conclusion)
 
 ## What is the Tactical Edge
@@ -56,14 +59,26 @@ One last piece to this architecture is a [Netgear GS105](https://www.netgear.com
 
 ## OS
 
+Similar to how much choice there is in the hardware realm, we have similar choice when it comes to operating systems. Being honest, there are two front runners. Both will work with 99.99% of the hardware that will be through at it. [Ubuntu](https://ubuntu.com/) is a great choice for many. It is built on Debian which has been around for decades. [Rocky Linux](https://rockylinux.org/) is the second choice. Rocky is the new Centos. Rocky is built from RHEL with all the enterprise security and stability built in. We have a few guides that talk about using Rocky as a secure foundation for RKE2. For this guide, Rocky for the win! And yes, please leave SElinux enforcing.
+
+As for installation method. We are going to leave that up to you. If you have PXE infrastructure in place, use it. For cluster in the pictures we used a usb-c thumb drive.
+
 ## Software
 
-### Registry
+Since we are leveraging Kubernetes we are going to use some of the tools in the Rancher portfolio. Namely [RKE2](https://docs.rke2.io/) for the Kubernetes layer. Next [Longhorn](https://longhorn.io/) for stateful storage across the nodes. And not least, [Rancher](https://docs.ranchermanager.rancher.io/) for managing everything.
 
 ### RKE2
 
 ### Longhorn
 
 ### Rancher
+
+## Next Level
+
+### Harvester
+
+### Gitea
+
+### Registry
 
 ## Conclusion
