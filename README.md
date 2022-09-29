@@ -12,7 +12,7 @@ Rancher Federal field engineers get asked all the time about how to deploy at th
 > * [What is the Tactical Edge](#what_is_the_tactical_edge)
 >   * [Difficulties with Tactical Edge](#Difficulties_with_Tactical_Edge)
 > * [Hardware](#Hardware)
-> * [OS](#OS)
+> * [Operating System](#Operating_System)
 > * [Software](#Software)
 >   * [RKE2](#RKE2)
 >   * [Longhorn](#Longhorn)
@@ -57,7 +57,7 @@ One last piece to this architecture is a [Netgear GS105](https://www.netgear.com
 
 ![lunchbox](img/lunchbox.jpg)
 
-## OS
+## Operating System
 
 Similar to how much choice there is in the hardware realm, we have similar choice when it comes to operating systems. Being honest, there are two front runners. Both will work with 99.99% of the hardware that will be through at it. [Ubuntu](https://ubuntu.com/) is a great choice for many. It is built on Debian which has been around for decades. [Rocky Linux](https://rockylinux.org/) is the second choice. Rocky is the new Centos. Rocky is built from RHEL with all the enterprise security and stability built in. We have a few guides that talk about using Rocky as a secure foundation for RKE2. For this guide, Rocky for the win! And yes, please leave SElinux enforcing.
 
