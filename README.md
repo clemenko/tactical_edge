@@ -65,13 +65,25 @@ As for installation method. We are going to leave that up to you. If you have PX
 
 ## Software
 
-Since we are leveraging Kubernetes we are going to use some of the tools in the Rancher portfolio. Namely [RKE2](https://docs.rke2.io/) for the Kubernetes layer. Next [Longhorn](https://longhorn.io/) for stateful storage across the nodes. And not least, [Rancher](https://docs.ranchermanager.rancher.io/) for managing everything.
+Since we are leveraging Kubernetes we are going to use some of the tools in the Rancher portfolio. Namely [RKE2](https://docs.rke2.io/) for the Kubernetes layer. Next [Longhorn](https://longhorn.io/) for stateful storage across the nodes. And not least, [Rancher](https://docs.ranchermanager.rancher.io/) for managing everything. For all the installs we are need to follow the air-gap instructions. The down side of the Tactical Edge is that you have to assume there is no network communication with the outside world.
 
 ### RKE2
 
+What is RKE2 you ask? It is a fully conformant Kubernetes distribution that focuses on security and compliance within the U.S. Federal Government sector. Meaning it has FIPS, SELlinux, STIGs, compliance and security support at it's foundation. Another great reason to choose RKE2 for your Kubernetes layers is that air-gapping the software is not an afterthought. In fact all of Rancher's products have air-gap install instructions. For the sake of this guide we will skip providing the code. Please review the air-gap install [docs for RKE2](https://docs.rke2.io/install/airgap/). The basic procedure for installing air-gapped is to get the tarball that contains all the bits.
+
+It is also worth mentioning we have another article on apply the STIG and security best practices for RKE2 and Rancher on [Intelligence Community News](https://intelligencecommunitynews.com/ic-insiders-have-you-stigd-your-kubernetes-yet/).
+
 ### Longhorn
 
+For those uninitiated, Longhorn is our storage product. Longhorn creates a highly available, encrypted at rest if enabled, storage layer using the aggregate storage already on the nodes. This is a fantastic way to create storage for stateful applications without having to add additional hardware.
+
+![longhorn](img/longhorn.jpg)
+
+Similar to RKE2, Longhorn had [very good documentation](https://longhorn.io/docs/1.3.1/advanced-resources/deploy/airgap/) for installing across the air-gap. Longhorn and Rancher will use a similar model of moving container images. For this reason it might make sense to stand up a registry inside the case.
+
 ### Rancher
+
+Now can look at multi-cluster management layer known as Rancher
 
 ## Next Level
 
