@@ -1,11 +1,11 @@
 ---
-title: Tactical Edge Reference Architecture
+title: Rancher Federal Tactical Edge Reference Architecture
 author: Andy Clemenko, @clemenko, andy.clemenko@rancherfederal.com
 ---
 
 # Tactical Edge Reference Architecture
 
-Rancher Federal field engineers get asked all the time about how to deploy at the edge. If we google "edge computing" we will get roughly 301,000,000 results that all same something different. Let use help define what the Tactical Edge is and how to leverage Kubernetes. The goal is increasing speed while decreasing complexity.
+Rancher Federal field engineers get asked all the time about how to deploy at the edge. If we google "edge computing" we will get roughly 301,000,000 results that all say something different. Let us help define what the Tactical Edge is and how to leverage Kubernetes. The goal is increasing velocity while decreasing complexity. Rancher's product suite have all this in mind.
 
 > **Table of Contents**:
 >
@@ -25,29 +25,29 @@ Rancher Federal field engineers get asked all the time about how to deploy at th
 
 ## What is the Tactical Edge
 
-There is an interesting article from Software Engineering Institute and Carnegie Mellon University about [Cloud Computing at the Tactical Edge](https://resources.sei.cmu.edu/library/asset-view.cfm?assetid=28021), from 2012. What is interesting is to see the need for "Tactical Edge" computing 10 years ago. The need for getting applications in the hands of the war fighter or first responder is incredibly valuable. From the abstract:
+One can find an interesting article from Software Engineering Institute and Carnegie Mellon University about [Cloud Computing at the Tactical Edge](https://resources.sei.cmu.edu/library/asset-view.cfm?assetid=28021), from 2012. The interesting part is the need for "Tactical Edge" computing 10 years ago. The need for getting applications in the hands of the war fighter or first responder is incredibly valuable. From the abstract:
 
 >Handheld mobile technology is reaching first responders, disaster-relief workers, and soldiers in the field to aid in various tasks, such as speech and image recognition, natural-language processing, decision making, and mission planning.
 
-Let's fast forward 10 years and it is amazing to see the amount of compute that can fit inside a coffee can. Case in point ASROCK Industrial has a very powerful [4X4 BOX-5800U](https://www.asrockind.com/en-gb/4X4%20BOX-5800U) computer in a package that is 4 inches by 4 inches by 2 inches. Not only is it tiny, but the power consumption is low enough to run on batteries for some time. Compute had gotten powerful enough and small enough to run big applications in the palm of your hand.
+Let's fast forward 10 years and it is amazing to see the amount of compute that can fit inside a coffee can. Case in point ASROCK Industrial has a very powerful [4X4 BOX-5800U](https://www.asrockind.com/en-gb/4X4%20BOX-5800U) computer in a package that is 4 inches by 4 inches by 2 inches. Not only is it tiny, but the power consumption is low enough to run on batteries. Compute has gotten powerful enough and small enough to run big applications in the palm of your hand.
 
 We are defining Tactical Edge as: A small case/kit that contains compute that is easily portable. The number and size of the nodes can vary. Being portable is a key characteristic.
 
 ![lunchbox](img/lunchbox_close_sml.jpg)
 
-Using this definition we can start to think about real world applications of such a cluster/box/backpack. The technique of "Moving Computation to Where the Data Lives" can be applied. In a lot of the use cases we have seen the organization wants to process data in the field. Then distill it into more meaningful data to be sent back to upstream. Now for some down sides of computing at the Tactical Edge.
+Using this definition we can start to think about real world applications of such a cluster/box/backpack/kit. The technique of "Moving Computation to Where the Data Lives" can be applied. In a lot of the use cases we have seen organizations wanting to process data in the field. Then distill it into more meaningful data to be sent back upstream. Now for some down sides of computing at the Tactical Edge.
 
 ### Difficulties with Tactical Edge
 
-There are two major difficulties for computing at the Tactical Edge. The first one being power space and cool. This is difficulty for even the biggest data centers around the world. When looking for hardware pay some attention to the [Thermal Design Power](https://en.wikipedia.org/wiki/Thermal_design_power) or TDP for short. This will indicate how much power is required for that device. Remember that the power requirements will increase when the device is under heavy load.
+There are two major difficulties for computing at the Tactical Edge. The first one being power, space and cool. This is difficult for even the biggest data centers around the world. When looking for hardware, pay attention to the [Thermal Design Power](https://en.wikipedia.org/wiki/Thermal_design_power) or TDP for short. This will indicate how much power is required for that device. Remember that the power requirements will increase when the device is under heavy load. Calculating the combined TDP for the kit is important to understand how long a battery will last, or how big of a power supply is needed. The kit referenced below has a combined TDP of roughly 185 Watts.
 
-The second major difficulty is manageability. How are we going to manage the Operating System and Applications far away from "home". There is where we can leverage Kubernetes and GitOps techniques to dramatically increase the velocity of deployment and manageability. We will walk through some of the choices further in this article.
+The second major difficulty is manageability. How are we going to manage the Operating System and Applications far away from "home"? This is where we can leverage Kubernetes and GitOps techniques to dramatically increase the velocity of deployment and manageability. Ideally we will want a light weight Kubernetes distribution and management layer. Not all Kubernetes distributions can operate in a smaller compute envelope.
 
 Now that we have defined a few major difficulties we can start looking at the what a Tactical Edge Architecture would look like.
 
 ## Hardware
 
-Boy do we have many choices on hardware these days. X86 or Arm? Intel or AMD? My favorite approach for picking hardware is to look at the applications that are needed. We call this approach "working backwards". Once the total amount of compute required is calculated we can start looking at the amount of CPU that will be needed. Adding the appliction CPU and Memory together with the Kubernetes and management overhead we get the "Compute Envelope". Meaning the total amount of CPU cores and Memory. There are other components, like networking, that are worth looking at.
+Boy do we have many choices on hardware these days. X86 or Arm? Intel or AMD? My favorite approach for picking hardware is to look at the applications that are needed. We call this approach "working backwards". Once the total amount of compute required is calculated we can start looking at the amount of CPU that will be needed. Adding the application CPU and Memory together with the Kubernetes and management overhead we get the "Compute Envelope". Meaning the total amount of CPU cores and Memory. There are other components, like networking, that are worth looking at.
 
 For this reference architecture we have chosen three [ASROCK 4X4 BOX-5800U](https://www.asrockind.com/en-gb/4X4%20BOX-5800U) boards. There is a good balance of cores, memory, storage and TDP. Each board has 8 cores and support up to 64gb of ram. For storage there is NVME (PCIe Gen3x4) support and a SATA3 port. As for power, we were able to use a single 150w power supply for all three boards. Each board has a TDP of 60Watts. Under heavy load there were no issues at all. The boards also have multiple NICs, including a 2.5gb one.
 
