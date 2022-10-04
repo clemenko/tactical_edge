@@ -25,13 +25,13 @@ Rancher Federal field engineers get asked all the time about how to deploy at th
 
 ## What is the Tactical Edge
 
-There is an interesting article from Software Engineering Institute and Carnegie Mellon University about [Cloud Computing at the Tactical Edge](https://resources.sei.cmu.edu/library/asset-view.cfm?assetid=28021). What is interesting is to see the need for "Tactical Edge" computing 10 years ago. The need for getting applications in the hands of the war fighter or first responder is incredible valuable. From the abstract:
+There is an interesting article from Software Engineering Institute and Carnegie Mellon University about [Cloud Computing at the Tactical Edge](https://resources.sei.cmu.edu/library/asset-view.cfm?assetid=28021), from 2012. What is interesting is to see the need for "Tactical Edge" computing 10 years ago. The need for getting applications in the hands of the war fighter or first responder is incredibly valuable. From the abstract:
 
 >Handheld mobile technology is reaching first responders, disaster-relief workers, and soldiers in the field to aid in various tasks, such as speech and image recognition, natural-language processing, decision making, and mission planning.
 
 Let's fast forward 10 years and it is amazing to see the amount of compute that can fit inside a coffee can. Case in point ASROCK Industrial has a very powerful [4X4 BOX-5800U](https://www.asrockind.com/en-gb/4X4%20BOX-5800U) computer in a package that is 4 inches by 4 inches by 2 inches. Not only is it tiny, but the power consumption is low enough to run on batteries for some time. Compute had gotten powerful enough and small enough to run big applications in the palm of your hand.
 
-We are defining Tactical Edge as: A small case or backpack that can run a couple of nodes.
+We are defining Tactical Edge as: A small case/kit that contains compute that is easily portable. The number and size of the nodes can vary. Being portable is a key characteristic.
 
 ![lunchbox](img/lunchbox_close_sml.jpg)
 
@@ -53,7 +53,7 @@ For this reference architecture we have chosen three [ASROCK 4X4 BOX-5800U](http
 
 To maximize the portability we added a [Gl.inet Beryl Travel Route](https://www.gl-inet.com/products/gl-mt1300/). The router is great for extending the connectivity to additional devices like a laptop. The router also has a "repeater" function for Wifi. Meaning all the nodes and reach the internet for updating and initial loading of software. And of course an internal DHCP server. As a side note, some of the Gl.iNet routes also have WireGuard (VPN) capabilities.
 
-One last piece to this architecture is a [Netgear GS105](https://www.netgear.com/business/wired/switches/unmanaged/gs105/) five port 1 Gigabit ethernet switch. The switch provides communication between the nodes. The switch could easily be upgrade to 2.5 Gigabit if needed. Also, if was only two nodes the GL.iNet router would be able to handle all the internal traffic.
+One last piece to this architecture is a [Netgear GS105](https://www.netgear.com/business/wired/switches/unmanaged/gs105/) five port 1 Gigabit ethernet switch. The switch provides communication between the nodes. The switch could easily be upgraded to 2.5 Gigabit if needed. Also, if the cae only had two nodes the GL.iNet router would be able to handle all the internal traffic.
 
 ![lunchbox](img/lunchbox.jpg)
 
@@ -75,28 +75,36 @@ It is also worth mentioning we have another article on apply the STIG and securi
 
 ### Longhorn
 
-For those uninitiated, Longhorn is our storage product. Longhorn creates a highly available, encrypted at rest if enabled, storage layer using the aggregate storage already on the nodes. This is a fantastic way to create storage for stateful applications without having to add additional hardware.
+For those uninitiated, Longhorn is Rancher's storage product. Longhorn creates a highly available, encrypted at rest if enabled, storage layer using the aggregate storage already on the nodes. This is a fantastic way to create storage for stateful applications without having to add additional hardware.
 
 ![longhorn](img/longhorn.jpg)
 
-Similar to RKE2, Longhorn had [very good documentation](https://longhorn.io/docs/1.3.1/advanced-resources/deploy/airgap/) for installing across the air-gap. Longhorn and Rancher will use a similar model of moving container images. For this reason it might make sense to stand up a registry inside the case.
+Similar to RKE2, Longhorn had [very good documentation](https://longhorn.io/docs/1.3.1/advanced-resources/deploy/airgap/) for installing across the air-gap. Longhorn and Rancher will use a similar model of moving container images and Helm charts. For this reason it might make sense to stand up a registry inside the kit.
 
 ### Rancher
 
-Now can look at multi-cluster management layer known as Rancher
+Now let's look at multi-cluster management layer known as Rancher. Rancher is a fantastic way to create a single pane of glass to manage all the applications in the kit. Rancher will be able to manage the application life cycles through a variety of methods, including GitOps. Adding version control within the kit will help facilitate GitOps. Rancher's primary method for installing is Helm. In order to install air-gapped the charts will also need to be moved across with the images. Just like in the other products, the [Rancher Air-Gapped install](https://docs.ranchermanager.rancher.io/pages-for-subheaders/air-gapped-helm-cli-install) docs are very detailed. At this point we have a kit that has fairly well complete. There are a few applications that we can add to improve the functionality.
 
 ## Next Level
 
-At this point I bet you are asking yourself "How can I make this better?". Well here are some ideas on how to extend this design to fit more needs.
+Well here are some ideas on how to extend this design to fit more needs. VMs? Version Control? User Authentication? Registry?
 
 ### Harvester
 
-What about having a Hyperconverged solution? [Harvester](https://www.rancher.com/products/harvester) can serve Virtual Machines (VMs) out from one of the nodes. In fact the cluster in the pictures is running Harvester on the third node. Harvester gives the add ability to serve Windows VMs to the case. Another great use of Harvester is to serve our more infrastructure related applications to the case, like DNS or version control.
+What about having a Hyperconverged solution? [Harvester](https://www.rancher.com/products/harvester) can serve Virtual Machines (VMs) out from one of the nodes. Being Hyperconverged means Harvester can support VMs and kubernetes applications from the same node. In fact the cluster in the pictures is running Harvester on the third node. Harvester gives the add ability to serve Windows VMs to the kit. Another great use of Harvester is to serve more infrastructure related applications to the kit, like DNS or version control. One fun fact about Harvester is that it uses Longhorn under the hood for storage. In certain applications it might make sense to run Harvester on all three nodes and then use the VMs to carve out small compute envelopes. This is a good practice for different security domains.
 
 ### Gitea
 
-[Gitea](https://gitea.io/en-us/) is a fantastic solution for in case version control. Not to mention how light weight it is. One of the protips is to use a Longhorn volume for Gitea for highly available, stateful, storage.
+[Gitea](https://gitea.io/en-us/) is a fantastic solution for in kit version control. Gitea would be the source of truth for how the applications are deployed. Aka GitOps. One of the pro-tips is to use a Longhorn volume for Gitea for highly available, stateful, storage.
+
+### KeyCloak
+
+Keycloak is an authentication application that can provide Two Factor Authentication along side SAML2 and OIDC. Basically KyeCloak will git the kit a greater level of user management to not only Rancher but also to the applications that will be deployed into the kit.
 
 ### Registry
 
+Similar to Gitea as the source of truth for files. A registry is a good idea as a source of truth for images. [Harbor](https://goharbor.io) is a really good choice for a registry. While the docs to not clearly call out an air-gapped install they do have a section for [Download the Harbor Install](https://goharbor.io/docs/2.3.0/install-config/download-installer/). Another alternative to Harbor is the original [Docker Registry](https://hub.docker.com/_/registry).
+
 ## Conclusion
+
+Hopefully we now have a clear definition of the Tactical Edge. And we have good understand of how we can leverage Kubernetes at the Edge. This guide is meant as a framework for implementing a similar kit that fits the applications compute envelope. At Rancher we like to say that our software meets you at the Mission.
