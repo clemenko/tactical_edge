@@ -41,9 +41,11 @@ Using this definition we can start to think about real world applications of suc
 
 There are two major difficulties for computing at the Tactical Edge. The first one being power, space and cool. This is difficult for even the biggest data centers around the world. When looking for hardware, pay attention to the [Thermal Design Power](https://en.wikipedia.org/wiki/Thermal_design_power) or TDP for short. This will indicate how much power is required for that device. Remember that the power requirements will increase when the device is under heavy load. Calculating the combined TDP for the kit is important to understand how long a battery will last, or how big of a power supply is needed. The kit referenced below has a combined TDP of roughly 185 Watts.
 
-The second major difficulty is manageability. How are we going to manage the Operating System and Applications far away from "home"? This is where we can leverage Kubernetes and GitOps techniques to dramatically increase the velocity of deployment and manageability. Ideally we will want a light weight Kubernetes distribution and management layer. Not all Kubernetes distributions can operate in a smaller compute envelope.
+The second major difficulty is manageability. How are we going to manage the Operating System and Applications far away from "home"? This is where we can leverage Kubernetes and GitOps techniques to dramatically increase the velocity of deployment and manageability. Ideally we will want a light weight Kubernetes distribution and management layer. Not all Kubernetes distributions can operate in a smaller compute envelope. 
 
-Now that we have defined a few major difficulties we can start looking at the what a Tactical Edge Architecture would look like.
+Kubernetes at the Edge is not a crazy idea. There was a great article talking about in in [Container Journal](https://containerjournal.com/features/getting-started-with-kubernetes-at-the-edge/). The article highlights a lot of the advantages of leveraging Kubernetes at the Edge.
+
+Now that we understand the pros and cons we can start looking at the what a Tactical Edge Architecture would look like.
 
 ## Hardware
 
